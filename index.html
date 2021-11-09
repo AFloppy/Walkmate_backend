@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WalkMate</title>
+
+    <script>
+        window.onload = () => {
+            const con = new XMLHttpRequest();
+
+            con.onreadystatechange = () => {
+                if(con.status === 200 && con.readyState === XMLHttpRequest.DONE) {
+                    const response = JSON.parse(con.responseText);
+                    if(response.isLogin) {
+                        const statusDiv = document.querySelector("#statusDiv");
+                        const loginRegDiv = document.querySelector("#loginRegDiv");
+                        const logoutDiv = document.querySelector("#logoutDiv");
+
+                        statusDiv.innerHTML = "ID : " + response.id + " | " + "닉네임 : " + response.nickname;
+                        loginRegDiv.style.display = "none";
+                        logoutDiv.style.display = "block";
+                    }
+                }
+            }
+
+            con.open("POST", "api/checkSession.php");
+            con.send();
+        };
+    </script>
+</head>
+<body>
+    <div>
+        <div id="statusDiv">로그인되어 있지 않음</div>
+        <br> <br>
+        <div id="loginRegDiv">
+            <a href="login.html" id="goLogin">로그인</a>
+            <a href="register.html" id="goRegister">회원가입</a>
+        </div>
+        <div id="logoutDiv" style="display:none">
+            <a href="api/logout.php">로그아웃</a>
+        </div>
+    </div>
+</body>
+</html>
