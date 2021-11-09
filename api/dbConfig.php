@@ -8,6 +8,8 @@ require_once("dbAccount.php");
 
 header("Content-Type:application/json");
 
+$__JSON_FLAGS = JSON_UNESCAPED_UNICODE|JSON_NUMERIC_CHECK;
+
 try {
     $database = new PDO("mysql:host=localhost;dbname=walkmate;charset=utf8mb4", $__dbUserName, $__dbPassword);
 } catch(PDOException $e) {

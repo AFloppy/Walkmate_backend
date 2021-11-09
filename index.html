@@ -4,31 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WalkMate</title>
-
-    <script>
-        window.onload = () => {
-            const con = new XMLHttpRequest();
-
-            con.onreadystatechange = () => {
-                if(con.status === 200 && con.readyState === XMLHttpRequest.DONE) {
-                    const response = JSON.parse(con.responseText);
-                    if(response.isLogin) {
-                        const statusDiv = document.querySelector("#statusDiv");
-                        const loginRegDiv = document.querySelector("#loginRegDiv");
-                        const logoutDiv = document.querySelector("#logoutDiv");
-
-                        statusDiv.innerHTML = "ID : " + response.id + " | " + "닉네임 : " + response.nickname;
-                        loginRegDiv.style.display = "none";
-                        logoutDiv.style.display = "block";
-                    }
-                }
-            }
-
-            con.open("POST", "api/checkSession.php");
-            con.send();
-        };
-    </script>
+    <title>WalkMate API Test</title>
+    <script src="js/core.js"></script>
+    <script src="js/index.js"></script>
 </head>
 <body>
     <div>
@@ -38,8 +16,11 @@
             <a href="login.html" id="goLogin">로그인</a>
             <a href="register.html" id="goRegister">회원가입</a>
         </div>
-        <div id="logoutDiv" style="display:none">
+        <div id="userDiv" style="display:none">
             <a href="api/logout.php">로그아웃</a>
+            <a href="makeWalk.html">모집하기</a> <br><br>
+            <h2>산책 리스트</h2>
+            <div id="walkList"></div>
         </div>
     </div>
 </body>

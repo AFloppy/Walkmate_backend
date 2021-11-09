@@ -1,4 +1,5 @@
 <?php 
+//Written by NamHyeok Kim
 
 session_start();
 header("Content-Type:application/json");
