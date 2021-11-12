@@ -7,13 +7,30 @@ require_once("dbConfig.php");
 $_POST = json_decode(file_get_contents("php://input"), true);
 
 $requireCount = $_POST['requireCount'];
+$walkListCount = $_POST['walkListCount'];
+$firstWalkKey = $_POST['firstWalkKey'];
 
-$sql = "SELECT walkKey, title, location, nowMemberCount, maxMemberCount, requireList, description, hostID, time FROM walk ORDER BY walkKey DESC LIMIT :requireCount";
+if($firstWalkKey === -1) {
+    $q = "SELECT MAX(walkKey) FROM walk";
+    $keyQuery = $database -> query($q);
+    $firstWalkKey = $keyQuery->fetch(PDO::FETCH_COLUMN);
+}
+
+$sql = "SELECT walkKey, title, location, nowMemberCount, maxMemberCount, requireList, description, hostID, time 
+        FROM walk WHERE walkKey <= :firstWalkKey ORDER BY walkKey DESC LIMIT :requireCount OFFSET :walkListCount";
 $query = $database -> prepare($sql);
-$query->bindValue(':requireCount', $requireCount, PDO::PARAM_INT);
+
+$param = array(':firstWalkKey' => $firstWalkKey, ':requireCount' => $requireCount, ':walkListCount' => $walkListCount);
+foreach($param as $key => $value) {
+    if(is_int($value)) {
+        $query -> bindValue($key, $value, PDO::PARAM_INT);
+    } else {
+        $query -> bindValue($key, $value, PDO::PARAM_STR);
+    }
+}
 $result = $query -> execute();
 
-$resArray = array('isSuccess' => false, 'reason' => "", 'walksCount' => 0, 'walks' => array());
+$resArray = array('isSuccess' => false);
 
 if($result) {
     $walkArray = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -27,7 +44,6 @@ if($result) {
     }
     $resArray['isSuccess'] = true;
     $resArray['walksCount'] = $query->rowCount();
-    //$resArray['walks'] = json_encode($resArray['walks'], $__JSON_FLAGS|JSON_FORCE_OBJECT);
 } else {
     $resArray['reason'] = "DB 오류 또는 접근 오류";
 }

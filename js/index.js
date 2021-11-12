@@ -1,3 +1,6 @@
+let pageWalkListCount = 0;
+let pageFirstWalkKey = -1;
+
 window.onload = () => {
     sessionCheck(initMain)
 };
@@ -19,7 +22,9 @@ function initMain(response) {
 function getWalkList() {
     const con = new XMLHttpRequest();
     const reqBody = {
-        requireCount: 10
+        requireCount: 10,
+        firstWalkKey: pageFirstWalkKey,
+        walkListCount: pageWalkListCount
     };
     con.onreadystatechange = () => {
         if(con.status === 200 && con.readyState === XMLHttpRequest.DONE) {
@@ -33,6 +38,10 @@ function getWalkList() {
                         listDiv.innerHTML += makeListElement(a.title, a.location, a.time, a.description, a.nowMemberCount,
                                                 a.maxMemberCount, a.requireList.require, a.hostNickName);
                     }
+                    if(pageFirstWalkKey === -1) {
+                        pageFirstWalkKey = res.walks[0].walkKey;
+                    }
+                    pageWalkListCount += res.walksCount;
                 } else {
                     listDiv.innerHTML = "산책이 없습니다.";
                 }
@@ -67,12 +76,4 @@ function logout() {
 
     con.open("POST", "api/logout.php");
     con.send(); 
-}
-
-function changedID() {
-
-}
-
-function changedNickname() {
-    
 }
