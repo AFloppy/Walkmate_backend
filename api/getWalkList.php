@@ -8,7 +8,7 @@ $_POST = json_decode(file_get_contents("php://input"), true);
 
 $requireCount = $_POST['requireCount'];
 
-$sql = "SELECT walkKey, title, location, nowMemberCount, maxMemberCount, requireList, description, hostID FROM walk ORDER BY walkKey DESC LIMIT :requireCount";
+$sql = "SELECT walkKey, title, location, nowMemberCount, maxMemberCount, requireList, description, hostID, time FROM walk ORDER BY walkKey DESC LIMIT :requireCount";
 $query = $database -> prepare($sql);
 $query->bindValue(':requireCount', $requireCount, PDO::PARAM_INT);
 $result = $query -> execute();
@@ -34,4 +34,5 @@ if($result) {
 
 echo json_encode($resArray, $__JSON_FLAGS|JSON_FORCE_OBJECT);
 unset($database);
+
 ?>

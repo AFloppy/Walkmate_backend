@@ -1,5 +1,5 @@
 <?php 
-
+//Written by NamHyeok Kim
 session_start();
 require_once("dbConfig.php");
 
@@ -13,16 +13,17 @@ $location = $_POST['location'];
 $maxMember = $_POST['maxMember'];
 $require = json_encode(array('require' => $_POST['require']), $__JSON_FLAGS);
 $description = $_POST['description'];
+$time = $_POST['time'];
 
-$memberList = json_encode(array('body'=>array('ID'=>$hostID, 'nickName'=>$hostNick)), 
-                $__JSON_FLAGS);
+$memberList = json_encode(array('0'=>array('ID'=>$hostID, 'nickName'=>$hostNick)), 
+                $__JSON_FLAGS|JSON_FORCE_OBJECT);
 $applyList = "{}";
 
 $param = array(':title' => $title, ':location' => $location, ':memberList' => $memberList, ':nowMemberCount' => 1,
     ':maxMemberCount' => $maxMember, ':applyList' => $applyList, ':requireList' => $require,
-    ':description' => $description, ':hostID' => $hostID);
+    ':description' => $description, ':hostID' => $hostID, ':time' => $time);
 
-$sql = "INSERT INTO walk (title, location, nowMemberCount, memberList, maxMemberCount, applyList, requireList, description, hostID) VALUES (:title, :location, :nowMemberCount, :memberList, :maxMemberCount, :applyList, :requireList, :description, :hostID)";
+$sql = "INSERT INTO walk (title, location, nowMemberCount, memberList, maxMemberCount, applyList, requireList, description, hostID, time) VALUES (:title, :location, :nowMemberCount, :memberList, :maxMemberCount, :applyList, :requireList, :description, :hostID, :time)";
 
 $query = $database->prepare($sql);
 foreach($param as $key => $value) {

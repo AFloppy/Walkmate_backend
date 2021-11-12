@@ -14,6 +14,7 @@ function makewalk() {
     const reqBody = {
         title: infoForm.elements["title"].value,
         location: infoForm.elements["location"].value,
+        time: infoForm.elements["time"].value,
         maxMember: infoForm.elements["maxmember"].value,
         require: infoForm.elements["require"].value,
         description: infoForm.elements["desc"].value

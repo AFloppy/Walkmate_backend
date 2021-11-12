@@ -2,5 +2,8 @@
 //Written by NamHyeok Kim
     session_start();
     session_destroy();
-    echo "<script>location.href='../index.html'</script>";
+
+    header("Content-Type: application/json");
+
+    echo json_encode(true, JSON_UNESCAPED_UNICODE|JSON_NUMERIC_CHECK);
 ?>

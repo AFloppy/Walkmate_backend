@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Mypage Test</title>
+
+        <script src="js/mypage.js"></script>
+    </head>
+    <body>
+        <div id="modifyDiv">
+            <form name="modify_form">
+                아이디 : <input type="text" name="id" disabled> <button type="button" onclick="openChangePasswordPopup()">비밀번호 변경</button><br> 
+                닉네임 : <input type="text" name="nickname" /> <button type="button" onclick="checkNickname()">중복확인</button><br>
+                나의 동네 : <input type="text" name="address"> <br>
+                성별 : 남 <input type="radio" name="gender" value="m"/> | 여 <input type="radio" name="gender" value="f"/> <br>
+                나이 : <input type="number" name="age"/>
+            </form>
+            <button onclick="modifyConfirm()">변경하기</button>
+        </div>
+    </body>
+</html>

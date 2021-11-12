@@ -30,7 +30,7 @@ function getWalkList() {
                 if(res.walksCount > 0) {
                     for(i = 0;i < res.walksCount;i++){
                         a = res.walks[i];
-                        listDiv.innerHTML += makeListElement(a.title, a.location, a.description, a.nowMemberCount,
+                        listDiv.innerHTML += makeListElement(a.title, a.location, a.time, a.description, a.nowMemberCount,
                                                 a.maxMemberCount, a.requireList.require, a.hostNickName);
                     }
                 } else {
@@ -47,10 +47,32 @@ function getWalkList() {
     con.send(JSON.stringify(reqBody));
 }
 
-function makeListElement(title, location, desc, nowMember, maxMember, require, hostNick) {
+function makeListElement(title, location, time, desc, nowMember, maxMember, require, hostNick) {
     return `<div class="listElement">
         <strong>${title}</strong> ${nowMember} / ${maxMember}<br>
-        ${hostNick} | ${location} | ${require} <br>
+        ${hostNick} | ${location} | ${require} | ${time}<br>
         ${desc}
         <div> <br>`;
+}
+
+function logout() {
+    const con = new XMLHttpRequest();
+    con.onreadystatechange = () => {
+        if(con.status === 200 && con.readyState === XMLHttpRequest.DONE) {
+            if(con.responseText) {
+                window.location.reload();
+            }
+        }
+    }
+
+    con.open("POST", "api/logout.php");
+    con.send(); 
+}
+
+function changedID() {
+
+}
+
+function changedNickname() {
+    
 }
