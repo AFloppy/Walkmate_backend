@@ -35,8 +35,8 @@ function getWalkList() {
                 if(res.walksCount > 0) {
                     for(i = 0;i < res.walksCount;i++){
                         a = res.walks[i];
-                        listDiv.innerHTML += makeListElement(a.title, a.location, a.time, a.description, a.nowMemberCount,
-                                                a.maxMemberCount, a.requireList.require, a.hostNickName);
+                        listDiv.innerHTML += makeListElement(a.title, a.depLocation, a.depTime, a.description, a.nowMemberCount,
+                                                a.maxMemberCount, a.requireList.require, a.hostNickname, a.walkKey);
                     }
                     if(pageFirstWalkKey === -1) {
                         pageFirstWalkKey = res.walks[0].walkKey;
@@ -56,8 +56,8 @@ function getWalkList() {
     con.send(JSON.stringify(reqBody));
 }
 
-function makeListElement(title, location, time, desc, nowMember, maxMember, require, hostNick) {
-    return `<div class="listElement">
+function makeListElement(title, location, time, desc, nowMember, maxMember, require, hostNick, walkKey) {
+    return `<div class="listElement" onclick="location.href='showWalk.html?walkKey=${walkKey}'">
         <strong>${title}</strong> ${nowMember} / ${maxMember}<br>
         ${hostNick} | ${location} | ${require} | ${time}<br>
         ${desc}

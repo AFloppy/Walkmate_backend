@@ -10,42 +10,42 @@ $requireCount = $_POST['requireCount'];
 $walkListCount = $_POST['walkListCount'];
 $firstWalkKey = $_POST['firstWalkKey'];
 
-if($firstWalkKey === -1) {
-    $q = "SELECT MAX(walkKey) FROM walk";
-    $keyQuery = $database -> query($q);
-    $firstWalkKey = $keyQuery->fetch(PDO::FETCH_COLUMN);
-}
-
-$sql = "SELECT walkKey, title, location, nowMemberCount, maxMemberCount, requireList, description, hostID, time 
-        FROM walk WHERE walkKey <= :firstWalkKey ORDER BY walkKey DESC LIMIT :requireCount OFFSET :walkListCount";
-$query = $database -> prepare($sql);
-
-$param = array(':firstWalkKey' => $firstWalkKey, ':requireCount' => $requireCount, ':walkListCount' => $walkListCount);
-foreach($param as $key => $value) {
-    if(is_int($value)) {
-        $query -> bindValue($key, $value, PDO::PARAM_INT);
-    } else {
-        $query -> bindValue($key, $value, PDO::PARAM_STR);
-    }
-}
-$result = $query -> execute();
-
 $resArray = array('isSuccess' => false);
 
-if($result) {
-    $walkArray = $query->fetchAll(PDO::FETCH_ASSOC);
-    foreach($walkArray as $row) {
-        $nickQuery = $database->prepare("SELECT ID, nickname FROM user WHERE ID = ?");
-        $nickQuery->execute(array($row['hostID']));
-        $userRow = $nickQuery->fetch(PDO::FETCH_ASSOC);
-        $row['requireList'] = json_decode($row['requireList'], true);
-        $row['hostNickName'] = $userRow['nickname'];
-        $resArray['walks'][] = $row;
+try {
+    if($firstWalkKey === -1) {
+        $q = "SELECT MAX(walkKey) FROM walk";
+        $keyQuery = $database -> query($q);
+        $firstWalkKey = $keyQuery->fetch(PDO::FETCH_COLUMN);
     }
+
+    $sql = "SELECT * FROM walk WHERE walkKey <= :firstWalkKey ORDER BY walkKey DESC LIMIT :requireCount OFFSET :walkListCount";
+    $query = $database -> prepare($sql);
+
+    $param = array(':firstWalkKey' => $firstWalkKey, ':requireCount' => $requireCount, ':walkListCount' => $walkListCount);
+    foreach($param as $key => $value) {
+        if(is_int($value)) {
+            $query -> bindValue($key, $value, PDO::PARAM_INT);
+        } else {
+            $query -> bindValue($key, $value, PDO::PARAM_STR);
+        }
+    }
+
+    execQuery($query);
+    
+    $walkArray = $query -> fetchAll(PDO::FETCH_ASSOC);
+    foreach($walkArray as $key => $value) {
+        $walkArray[$key]['depLocation'] = json_decode($value['depLocation'], true);
+        $walkArray[$key]['requireList'] = json_decode($value['requireList'], true);
+    }
+    
     $resArray['isSuccess'] = true;
     $resArray['walksCount'] = $query->rowCount();
-} else {
-    $resArray['reason'] = "DB 오류 또는 접근 오류";
+    $resArray['walks'] = $walkArray;
+
+} catch (Exception $e) {
+    $resArray['code'] = $e -> getCode();
+    $resArray['errorDetail'] = $e -> getMessage();
 }
 
 echo json_encode($resArray, $__JSON_FLAGS|JSON_FORCE_OBJECT);

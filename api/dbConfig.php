@@ -16,4 +16,13 @@ try {
     echo "DB Error / {$e->getMessage()}";
 }   
 
+function execQuery($query) {
+    if(!$query -> execute()) throw new Exception("DB 오류", 1);
+}
+
+function checkSession() {
+    if(isset($_SESSION['user_key'])) return true;
+    return false;
+}
+
 ?>

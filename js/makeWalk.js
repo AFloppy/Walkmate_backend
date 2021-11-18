@@ -13,9 +13,9 @@ function makewalk() {
     const infoForm = document.forms["walkInfoForm"];
     const reqBody = {
         title: infoForm.elements["title"].value,
-        location: infoForm.elements["location"].value,
-        time: infoForm.elements["time"].value,
-        maxMember: infoForm.elements["maxmember"].value,
+        depLocation: infoForm.elements["location"].value,
+        depTime: infoForm.elements["time"].value,
+        maxMemberCount: infoForm.elements["maxmember"].value,
         require: infoForm.elements["require"].value,
         description: infoForm.elements["desc"].value
     }
@@ -33,7 +33,7 @@ function makewalk() {
         }
     }
 
-    con.open("POST", "api/makeWalk.php");
+    con.open("POST", "api/writeWalk.php");
     con.setRequestHeader("Content-Type", "application/json");
     con.send(JSON.stringify(reqBody));
 }
