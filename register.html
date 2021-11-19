@@ -11,20 +11,22 @@
     <body>
         <form name="reg_form">
             아이디 : <input type="text" name="id" onchange="changedID()" />
-            <button type="button" onclick="checkID()">중복확인</button>
+            <!-- <button type="button" onclick="checkID()">중복확인</button> -->
             <div id="checkIDResultDiv" style="display: none"></div>
             <br />
-            비밀번호 :<input type="password" name="password" /> 비밀번호 확인 : <input type="password" name="oneMorePassword"/><br />
+            비밀번호 : <input type="password" name="password" /> 비밀번호 확인 : <input type="password" name="oneMorePassword"/><br />
             닉네임 :
             <input type="text" name="nickname" onchange="changedNick()" />
-            <button type="button" onclick="checkNickname()">중복확인</button>
+            <!-- <button type="button" onclick="checkNickname()">중복확인</button> -->
             <div id="checkNicknameResultDiv" style="display: none"></div>
             <br />
             내 위치 : <input type="text" name="address" /><br />
             이메일 : <input type="email" name="email" /><br />
+            연락처 : <input type="tel" name="phone" /><br />
             성별 : 남 <input type="radio" name="gender" value="m" /> | 여
             <input type="radio" name="gender" value="f" /><br />
             나이 : <input type="number" name="age" /> <br />
+            생일 : <input type="date" name="birth" /> <br />
         </form>
         <button onclick="register()">가입</button>
     </body>

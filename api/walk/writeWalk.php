@@ -9,13 +9,13 @@ $_POST = json_decode(file_get_contents("php://input"), true);
 $resArray = array('isSuccess' => false);
 
 try {
-    if(!isset($_SESSION['user_key'])) {
+    if(!isset($_SESSION['userKey'])) {
         throw new Exception("로그인 세션 없음", 2);
     }
 
-    $hostKey = $_SESSION['user_key'];
-    $hostID = $_SESSION['user_id'];
-    $hostNick = $_SESSION['user_nickname'];
+    $hostKey = $_SESSION['userKey'];
+    $hostID = $_SESSION['userId'];
+    $hostNick = $_SESSION['userNickname'];
 
     $title = $_POST['title'];
     $depLocation = json_encode($_POST['depLocation'], $__JSON_FLAGS);

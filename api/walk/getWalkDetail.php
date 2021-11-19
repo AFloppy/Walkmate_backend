@@ -17,7 +17,7 @@ try {
     execQuery($query);
 
     if($query -> rowCount() < 1) {
-        throw new Exception("존재하지 않는 글", 4);
+        throw new Exception("없는 글", 3);
     }   
 
     $walkPost = $query -> fetch(PDO::FETCH_ASSOC);
@@ -26,7 +26,9 @@ try {
     $resArray['isSuccess'] = true;
     $resArray['body'] = $walkPost;
     
-    if($_SESSION['user_key'] === $walkPost['hostKey']) {
+    if($_SESSION['userKey'] === $walkPost['hostKey']) {
+        $resArray['isHost'] = true;
+
         $memberSql = "SELECT * FROM memberList WHERE walkKey = :reqKey";
         $memberQuery = $database -> prepare($memberSql);
         $memberQuery -> bindValue(':reqKey', $reqWalkKey, PDO::PARAM_INT);
@@ -39,7 +41,6 @@ try {
         execQuery($applyQuery);
         $resArray['applyList'] = $applyQuery -> fetchAll(PDO::FETCH_ASSOC);
 
-        $resArray['isHost'] = true;
     } else {
         $resArray['isHost'] = false;
     }

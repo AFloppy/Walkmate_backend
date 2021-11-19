@@ -9,6 +9,6 @@ function sessionCheck(listener) {
     }
   };
 
-  con.open("POST", "api/checkSession.php");
+  con.open("POST", "api/account/main.php");
   con.send();
 }

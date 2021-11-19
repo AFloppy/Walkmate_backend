@@ -2,21 +2,22 @@ let pageWalkListCount = 0;
 let pageFirstWalkKey = -1;
 
 window.onload = () => {
-    sessionCheck(initMain)
+    sessionCheck(initMain);
+    initMain();
 };
 
 function initMain(response) {
-    if(response.isLogin) {
+    //if(response.isLogin) {
         const statusDiv = document.querySelector("#statusDiv");
         const loginRegDiv = document.querySelector("#loginRegDiv");
         const userDiv = document.querySelector("#userDiv");
 
-        statusDiv.innerHTML = "ID : " + response.id + " | " + "닉네임 : " + response.nickname;
+        //statusDiv.innerHTML = "ID : " + response.id + " | " + "닉네임 : " + response.nickname;
         loginRegDiv.style.display = "none";
         userDiv.style.display = "block";
 
         getWalkList();
-    }
+    //}
 }
 
 function getWalkList() {
@@ -51,7 +52,7 @@ function getWalkList() {
         }
     }
 
-    con.open("POST", "api/getWalkList.php");
+    con.open("POST", "api/walk/getWalkList.php");
     con.setRequestHeader("Content-Type", "application/json");
     con.send(JSON.stringify(reqBody));
 }

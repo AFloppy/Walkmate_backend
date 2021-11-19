@@ -1,7 +1,8 @@
-let flagID = false;
-let flagNickname = false;
+//let flagID = false;
+//let flagNickname = false;
 
 function register() {
+    /*
     if (!flagID) {
         alert("ID 중복 확인을 먼저 해주세요!");
         return;
@@ -9,21 +10,31 @@ function register() {
     if (!flagNickname) {
         alert("닉네임 중복 확인을 먼저 해주세요!");
         return;
-    }
+    } */
 
     const regForm = document.forms["reg_form"];
+    let userGender;
+    console.log(regForm.elements["gender"].value);
+    if(regForm.elements["gender"].value === "f") {
+        userGender = 1;
+    } else {
+        userGender = 0;
+    }
+
     const bodyDict = {
-        id: regForm.elements["id"].value,
-        password: regForm.elements["password"].value,
+        user_id: regForm.elements["id"].value,
+        user_pw: regForm.elements["password"].value,
         nickname: regForm.elements["nickname"].value,
-        address: regForm.elements["address"].value,
-        email: regForm.elements["email"].value,
-        gender: regForm.elements["gender"].value,
+        addr: regForm.elements["address"].value,
+        mail: regForm.elements["email"].value,
+        phone: regForm.elements["phone"].value,
+        gender: userGender,
         age: regForm.elements["age"].value,
+        birth: regForm.elements["birth"].value
     };
 
-    ompw = regForm.elements["oneMorePassword"]; 
-    if(bodyDict.password !== ompw) {
+    ompw = regForm.elements["oneMorePassword"].value; 
+    if(bodyDict.user_pw !== ompw) {
         alert("패스워드 확인이 일치하지 않습니다.");
         return;
     }
@@ -41,7 +52,7 @@ function register() {
         }
     };
 
-    con.open("POST", "api/register.php");
+    con.open("POST", "api/account/signup.php");
     con.setRequestHeader("Content-Type", "application/json");
     con.send(JSON.stringify(bodyDict));
 }

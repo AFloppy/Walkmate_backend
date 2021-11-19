@@ -49,7 +49,7 @@ try {
     }
 
     if(!$flag) {
-        throw new Exception("이미 신청 또는 참가 중", 3);
+        throw new Exception("이미 신청 또는 참가 중", 4);
     }
     
     $insSql = "INSERT applyList (walkKey, memberKey, memberID, nickname, applyTime) 

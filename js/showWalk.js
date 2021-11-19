@@ -52,7 +52,7 @@ window.onload = () => {
         return;
     }
     
-    con.open("POST", "api/getWalkDetail.php");
+    con.open("POST", "api/walk/getWalkDetail.php");
     con.setRequestHeader("Content-Type", "application/json");
     con.send(JSON.stringify(reqBody));
 

@@ -1,8 +1,8 @@
 function login() {
     const loginForm = document.forms["login_form"];
     const bodyDict = {
-        id: loginForm.elements["id"].value,
-        password: loginForm.elements["password"].value
+        user_id: loginForm.elements["id"].value,
+        user_pw: loginForm.elements["password"].value
     }
 
     const con = new XMLHttpRequest();
@@ -17,7 +17,7 @@ function login() {
         }
     }
 
-    con.open("POST", "api/login.php");
+    con.open("POST", "api/account/login.php");
     con.setRequestHeader("Content-Type", "application/json");
     con.send(JSON.stringify(bodyDict));
 }

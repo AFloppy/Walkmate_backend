@@ -13,7 +13,7 @@ $__JSON_FLAGS = JSON_UNESCAPED_UNICODE|JSON_NUMERIC_CHECK;
 try {
     $database = new PDO($__dsn, $__dbUserName, $__dbPassword);
 } catch(PDOException $e) {
-    echo "DB Error / {$e->getMessage()}";
+    echo "DB Error / {$e -> getMessage()}";
 }   
 
 function execQuery($query) {
@@ -21,7 +21,7 @@ function execQuery($query) {
 }
 
 function checkSession() {
-    if(isset($_SESSION['user_key'])) return true;
+    if(isset($_SESSION['userKey'])) return true;
     return false;
 }
 
