@@ -8,21 +8,30 @@ $_POST = json_decode(file_get_contents("php://input"), true);
 
 $requireCount = $_POST['requireCount'];
 $walkListCount = $_POST['walkListCount'];
-$firstWalkKey = $_POST['firstWalkKey'];
+$requestTime = $_POST['requestTime'];
 
 $resArray = array('isSuccess' => false);
 
 try {
-    if($firstWalkKey === -1) {
-        $q = "SELECT MAX(walkKey) FROM walk";
-        $keyQuery = $database -> query($q);
-        $firstWalkKey = $keyQuery->fetch(PDO::FETCH_COLUMN);
-    }
+    $param = array(':reqTime' => $requestTime, ':requireCount' => $requireCount, ':walkListCount' => $walkListCount);
+    
+    $sql = "SELECT *";
+    if(isset($_SESSION['userKey'])) {
+        $getAddrSql = "SELECT addrLatitude, addrLongitude FROM account WHERE id = :id";
+        $getAddrQuery = $database -> prepare($getAddrSql);
+        $getAddrQuery -> bindValue(':id', $_SESSION['userKey'], PDO::PARAM_INT);
+        execQuery($getAddrQuery);
 
-    $sql = "SELECT * FROM walk WHERE walkKey <= :firstWalkKey ORDER BY walkKey DESC LIMIT :requireCount OFFSET :walkListCount";
+        if($getAddrQuery -> rowCount() === 1) {
+            $userAddr = $getAddrQuery -> fetch(PDO::FETCH_ASSOC);
+            $sql .= ", HAVERSINE(depLatitude, depLongitude, :lat, :long) AS distance";
+            $param = array_merge($param, array(':lat' => $userAddr['addrLatitude'], ':long' => $userAddr['addrLongitude']));
+        }
+    }
+    $sql .= " FROM walk WHERE writeTime <= STR_TO_DATE(:reqTime, '%Y-%m-%d %T') ORDER BY walkKey DESC LIMIT :requireCount OFFSET :walkListCount";
     $query = $database -> prepare($sql);
 
-    $param = array(':firstWalkKey' => $firstWalkKey, ':requireCount' => $requireCount, ':walkListCount' => $walkListCount);
+    
     foreach($param as $key => $value) {
         if(is_int($value)) {
             $query -> bindValue($key, $value, PDO::PARAM_INT);
@@ -34,10 +43,6 @@ try {
     execQuery($query);
     
     $walkArray = $query -> fetchAll(PDO::FETCH_ASSOC);
-    foreach($walkArray as $key => $value) {
-        $walkArray[$key]['depLocation'] = json_decode($value['depLocation'], true);
-        $walkArray[$key]['requireList'] = json_decode($value['requireList'], true);
-    }
     
     $resArray['isSuccess'] = true;
     $resArray['walksCount'] = $query->rowCount();

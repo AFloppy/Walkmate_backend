@@ -15,15 +15,15 @@
         |:---:|:---:|---|:---|
         |requireCount|Number|한번에 요청할 모집 글의 개수|-|
         |walkListCount|Number|현재까지 요청한 개수|-|
-        |firstWalkKey|Number| 맨 처음 요청한 모집글의 키 값|-1이면 가장 최근 것부터 조회
+        |requestTime|Datetime|요청할 최종 시간|"yyyy-mm-dd hh:mm:ss" 형식, 이 시간 이전에 등록된 글만 조회|
 
         **Example**
         ```json
-        //Case: 현재까지 20개 조회, 목록 최상단에 표시되고 있는 글의 키는 66이고 10개씩 조회하는 경우
+        //Case: 11월 21일 10시 이전 작성된 글만 10개씩 요청하며 현재까지 20개 요청된 상황
         {
             "requireCount": 10,
             "walkListCount": 20,
-            "firstWalkKey": 66
+            "requestTime": "2021-11-21 10:00:00"
         }
         ```
     - **Response Body** | Type : JSON
@@ -41,17 +41,19 @@
             |Data Name|Type|Description|More|
             |:---:|:---:|---|:---|
             |walkKey|Number|모집 글 식별 키|-|
+            |hostKey|Number|작성자 사용자 키|-|
+            |hostID|String|작성자 아이디|-|
+            |hostNickname|String|작성자 닉네임|-|
             |title|String|모집 글 제목|-|
-            |depLocation|String|출발 장소|지도 API 활용시 변경 예정|
+            |depLatitude|Decimal|출발 장소|-|
+            |depLongitude|Decimal|출발 장소|-|
             |nowMemberCount|Number|현재 참가 인원|-|
             |maxMemberCount|Number|최대 참가 인원|-|
-            |requireList|JSON|요구 조건 데이터|시간이 남으면 객체화, 현재는 아래 String 타입 require에 글로 작성|
+            |applyMemberCount|Number|참가 신청 인원|-|
             |description|String|모집 글 설명|-|
-            |hostKey|int|생성한 사용자의 Key|-|
-            |hostID|String|생성한 사용자의 ID|-|
-            |hostNickName|String|생성한 사용자의 닉네임|편의상 추가|
             |depTime|Datetime|산책 일시|"yyyy-mm-dd hh:mm:ss" 형식|
             |writeTime|Datetime|글 작성 일시|"yyyy-mm-dd hh:mm:ss" 형식|
+            |distance|Decimal|등록한 주소와의 거리|km 단위, 로그인 상태만 반환|
 
         **Example**
         ```json
@@ -63,15 +65,85 @@
                 "0": {
                     {
                     "walkKey": 1,
+                    "hostKey": 1,
+                    "hostID": "hostID",
+                    "hostNickname": "hostNick",
                     "title": "산책가실분~",
-                    "location": "진주",
+                    "depLatitude": 35.199294829143,
+                    "depLongitude": 128.07520607663,
                     "nowMemberCount": 1,
                     "maxMemberCount": 5,
-                    "requireList": { "require": "a" },
-                    "description": "a",
-                    "hostID": "userID",
-                    "time": "2021-11-24 23:11:00"
-                    ,"hostNickName": "userNickName"
+                    "applyMemberCount": 0,
+                    "description": "자유 산책입니다.",
+                    "depTime": "2021-11-25 18:00:00",
+                    "writeTime": "2021-11-21 21:35:44",
+                    "distance": 0.3949711476380123
+                    }
+                }
+            }
+        }
+
+        //Case: Fail
+        {
+            "isSuccess": false,
+            "code": 1,
+            "reason": "DB 오류"
+        }
+        ```
+
+* ### **getRecWalkList.php**
+
+    거리 조건으로 산책 목록을 요청합니다. 로그인 필요
+      
+    - **Request Body** | Type : JSON
+        |Data Name|Type|Description|More|
+        |:---:|:---:|---|:---|
+        |requireCount|Number|한번에 요청할 모집 글의 개수|-|
+        |walkListCount|Number|현재까지 요청한 개수|-|
+        |requestTime|Datetime|요청할 최종 시간|"yyyy-mm-dd hh:mm:ss" 형식, 이 시간 이전에 등록된 글만 조회|
+        |limitDistance|Decimal|요청할 최대 거리|해당 값 이하의 거리만 반환, km 단위|
+
+        **Example**
+        ```json
+        //Case: 11월 21일 10시 이전 작성된 제한 거리 1km인 글만 10개씩 요청하며 현재까지 20개 요청된 상황
+        {
+            "requireCount": 10,
+            "walkListCount": 20,
+            "requestTime": "2021-11-21 10:00:00",
+            "limitDistance": 1.0
+        }
+        ```
+    - **Response Body** | Type : JSON
+        |Data Name|Type|Description|More|
+        |:--:|:---:|---|:---|
+        |isSuccess|Boolean|성공 여부|-|
+        |code|Number|실패 코드|실패시에만 반환 (isSuccess === false)|
+        |errorDetail|String|오류 내용 설명|실패시에만 반환|
+        |walksCount|Number|조회한 모집 글의 개수|-|
+        |walks|JSON|조회한 모집글 데이터|숫자가 작을 수록 가까운 글(walks 하위구조 참고)|
+
+        **Example**
+        ```json
+        //Case: Success
+        {
+            "isSuccess": true,
+            "walksCount": 1,
+            "walks": {
+                "0": {
+                    "walkKey": 1,
+                    "hostKey": 1,
+                    "hostID": "hostID",
+                    "hostNickname": "hostNick",
+                    "title": "산책가실분~",
+                    "depLatitude": 35.199294829143,
+                    "depLongitude": 128.07520607663,
+                    "nowMemberCount": 1,
+                    "maxMemberCount": 5,
+                    "applyMemberCount": 0,
+                    "description": "자유 산책입니다.",
+                    "depTime": "2021-11-25 18:00:00",
+                    "writeTime": "2021-11-21 21:35:44",
+                    "distance": 0.3949711476380123
                     }
                 }
             }
@@ -118,29 +190,28 @@
         {
             "isSuccess":true,
             "body":{
-                "walkKey":1,
-                "hostKey":1,
-                "hostID":"hostID",
-                "hostNickname":"hostNickname",
-                "title":"야호",
-                "depLocation":"창원",
-                "nowMemberCount":1,
-                "maxMemberCount":4,
-                "applyMemberCount":1,
-                "requireList":{
-                    "require":"아무나"
-                },
-                "description":"자유 산책입니다.",
-                "depTime":"2021-11-19 16:52:00",
-                "writeTime":"2021-11-18 16:52:36"
+                "walkKey": 1,
+                "hostKey": 1,
+                "hostID": "hostID",
+                "hostNickname": "hostNick",
+                "title": "산책가실분~",
+                "depLatitude": 35.199294829143,
+                "depLongitude": 128.07520607663,
+                "nowMemberCount": 1,
+                "maxMemberCount": 5,
+                "applyMemberCount": 0,
+                "description": "자유 산책입니다.",
+                "depTime": "2021-11-25 18:00:00",
+                "writeTime": "2021-11-21 21:35:44",
+                "distance": 0.3949711476380123
             },
             "isHost":true,
             "memberList":{
                 "0":{
                     "walkKey":2,
                     "memberKey":1,
-                    "memberID":"memberID",
-                    "nickname":"member1",
+                    "memberID":"hostID",
+                    "nickname":"hostNick",
                     "joinTime":"2021-11-18 16:52:36"
                 },
             },
@@ -164,8 +235,6 @@
         ```
 
     
-
-
 * ### **writeWalk.php**
     
     __로그인 필수__
@@ -175,9 +244,9 @@
         |Data Name|Type|Description|More|
         |:--:|:---:|---|:---|
         |title|String|모집 글의 제목|-|
-        |depLocation|String|출발 장소|지도 API 활용시 변경 예정|
+        |depLatitude|Decimal|출발 장소 위도|-|
+        |depLongitude|Decimal|출발 장소 경도|-|
         |maxMemberCount|Number|최대 모집 인원|-|
-        |require|String|참가 조건|-|
         |description|String|산책에 대해서 간단한 설명|-|
         |depTime|Datetime|산책 출발시간|"yyyy-mm-dd hh:mm:ss" 형식|
 
@@ -185,9 +254,9 @@
         ```json
         {
             "title": "산책 가실 분",
-            "location": "경상대 후문 앞",
-            "maxMember": 5,
-            "require": "아무나 자유",
+            "depLatitude": 35.153355865549905,
+            "depLongitude": 128.09943616923988,
+            "maxMemberCount": 5,
             "description": "후문쪽에서 산책 가실분 구합니다~",
             "depTime": "2021-11-25 18:00:00"
         }

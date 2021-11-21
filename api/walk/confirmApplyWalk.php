@@ -28,7 +28,7 @@ try {
     $hostKey = $getHostKeyQuery -> fetch(PDO::FETCH_COLUMN);
 
     if($hostKey !== $_SESSION['userKey']) {
-        throw new Exception("권한 없음", 4);
+        throw new Exception("권한 없음", 5);
     }
 
     $sql = "SELECT * FROM applyList WHERE walkKey = :walkKey";

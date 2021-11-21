@@ -9,7 +9,7 @@ $user_pw=$_POST["user_pw"];
 $sql = "SELECT * FROM account WHERE real_id ='$user_id' AND pw ='$user_pw'";
 $res = $db->query($sql);
 $row = $res->fetch_array(MYSQLI_ASSOC);
-echo $sql;
+//echo $sql;
 if($row){
     echo "로그인 성공";
     $_SESSION['userId'] = $user_id;

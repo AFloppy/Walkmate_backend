@@ -18,20 +18,21 @@ try {
     $hostNick = $_SESSION['userNickname'];
 
     $title = $_POST['title'];
-    $depLocation = json_encode($_POST['depLocation'], $__JSON_FLAGS);
+    //$depLocation = json_encode($_POST['depLocation'], $__JSON_FLAGS);
+    $depLatitude = $_POST['depLatitude'];
+    $depLongitude = $_POST['depLongitude'];
     $maxMemberCount = $_POST['maxMemberCount'];
-    $requireList = json_encode(array('require' => $_POST['require']), $__JSON_FLAGS);
     $description = $_POST['description'];
     $depTime = $_POST['depTime'];
 
     $param = array(':hostKey' => $hostKey, ':hostID' => $hostID, ':hostNickname' => $hostNick, ':title' => $title,
-                    ':depLocation' => $depLocation, ':maxMemberCount' => $maxMemberCount,
-                    ':requireList' => $requireList, ':description' => $description, ':depTime' => $depTime);
+                    ':depLatitude' => $depLatitude, ':depLongitude' => $depLongitude, ':maxMemberCount' => $maxMemberCount,
+                    ':description' => $description, ':depTime' => $depTime);
 
-    $insSql = "INSERT INTO walk (hostKey, hostID, hostNickname, title, depLocation, nowMemberCount, maxMemberCount, 
-                                applyMemberCount, requireList, description, depTime, writeTime) 
-            VALUES (:hostKey, :hostID, :hostNickname, :title, :depLocation, 1, :maxMemberCount, 
-                                0, :requireList, :description, :depTime, NOW())";
+    $insSql = "INSERT INTO walk (hostKey, hostID, hostNickname, title, depLatitude, depLongitude, nowMemberCount, maxMemberCount, 
+                                applyMemberCount, description, depTime, writeTime) 
+            VALUES (:hostKey, :hostID, :hostNickname, :title, :depLatitude, :depLongitude, 1, :maxMemberCount, 
+                                0, :description, :depTime, NOW())";
 
     $insQuery = $database->prepare($insSql);
     foreach($param as $key => $value) {
