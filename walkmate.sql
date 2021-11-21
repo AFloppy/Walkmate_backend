@@ -1,3 +1,6 @@
+ALTER TABLE account ADD COLUMN addrLatitude decimal(17, 14) not null;
+ALTER TABLE account ADD COLUMN addrLongitude decimal(17, 14) not null;
+
 CREATE TABLE walk (
     walkKey int primary key auto_increment,
     hostKey int not null,
