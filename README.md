@@ -284,6 +284,46 @@
         }
         ```
 
+* ### **deleteWalk.php**
+    
+    __로그인 필수__
+
+    산책 글을 삭제합니다.  
+
+    - **Request Body** | Type : JSON
+        |Data Name|Type|Description|More|
+        |:--:|:---:|---|:---|
+        |walkKey|Number|산책 글 번호|-|
+
+        **Example**
+        ```json
+        {
+            "walkKey": 1
+        }
+        ```
+
+    - **Response Body** | Type : JSON
+        |Data Name|Type|Description|More|
+        |:--:|:---:|---|:---|
+        |isSuccess|Boolean|성공 여부|-|
+        |code|int|실패 코드|실패시에만 반환 (isSuccess === false)|
+        |errorDetail|String|오류 내용 설명|실패시에만 반환|
+
+        **Example**
+        ```json
+        //Case: Success
+        {
+            "isSuccess": true
+        }
+
+        //Case: Fail
+        {
+            "isSuccess": false,
+            "code": 1,
+            "errorDetail": "DB 오류"
+        }
+        ```
+
 * ### **applyWalk.php**
     
     __로그인 필수__
@@ -375,6 +415,92 @@
             "errorDetail": "DB 오류"
         }
         ```
+
+
+* ### **cancelApply.php**
+    
+    __로그인 필수__
+
+    산책 글 요청을 취소합니다.  
+
+    - **Request Body** | Type : JSON
+        |Data Name|Type|Description|More|
+        |:--:|:---:|---|:---|
+        |walkKey|Number|산책 글 번호|-|
+
+        **Example**
+        ```json
+        {
+            "walkKey": 1
+        }
+        ```
+
+    - **Response Body** | Type : JSON
+        |Data Name|Type|Description|More|
+        |:--:|:---:|---|:---|
+        |isSuccess|Boolean|성공 여부|-|
+        |code|int|실패 코드|실패시에만 반환 (isSuccess === false)|
+        |errorDetail|String|오류 내용 설명|실패시에만 반환|
+
+        **Example**
+        ```json
+        //Case: Success
+        {
+            "isSuccess": true
+        }
+
+        //Case: Fail
+        {
+            "isSuccess": false,
+            "code": 1,
+            "errorDetail": "DB 오류"
+        }
+        ```
+
+* ### **dropMember.php**
+    
+    __로그인 필수__
+
+    참가 중인 멤버를 내보내거나, 참가 중인 산책에서 탈퇴합니다.
+    모집글을 작성한 사용자 또는 신청자만 탈퇴 요청이 가능합니다.
+
+    - **Request Body** | Type : JSON
+        |Data Name|Type|Description|More|
+        |:--:|:---:|---|:---|
+        |walkKey|Number|산책 글 번호|-|
+        |memberKey|Number|탈퇴할 사용자 키|-|
+
+        **Example**
+        ```json
+        {
+            "walkKey": 1,
+            "memberKey": 2
+        }
+        ```
+
+    - **Response Body** | Type : JSON
+        |Data Name|Type|Description|More|
+        |:--:|:---:|---|:---|
+        |isSuccess|Boolean|성공 여부|-|
+        |code|int|실패 코드|실패시에만 반환 (isSuccess === false)|
+        |errorDetail|String|오류 내용 설명|실패시에만 반환|
+
+        **Example**
+        ```json
+        //Case: Success
+        {
+            "isSuccess": true
+        }
+
+        //Case: Fail
+        {
+            "isSuccess": false,
+            "code": 1,
+            "errorDetail": "DB 오류"
+        }
+        ```
+
+
 
 * ### **Error Codes**
 

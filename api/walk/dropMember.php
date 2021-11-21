@@ -6,7 +6,7 @@ require_once("dbConfig.php");
 $_POST = json_decode(file_get_contents("php://input"), true);
 
 $targetWalkKey = $_POST['walkKey'];
-$targetMemberKey = $_POST['targetMemberKey'];
+$targetMemberKey = $_POST['memberKey'];
 
 $resArray = array('isSuccess' => false);
 
@@ -15,24 +15,28 @@ try {
         throw new Exception("로그인 세션 없음", 2);
     }
 
+    $getHostKeySql = "SELECT hostKey FROM walk WHERE walkKey = :walkKey";
+    $getHostKeyQuery = $database -> prepare($getHostKeySql);
+    $getHostKeyQuery -> bindValue(':walkKey', $targetWalkKey, PDO::PARAM_INT);
+    execQuery($getHostKeyQuery);
+
+    if($getHostKeyQuery -> rowCount() < 1) {
+        throw new Exception("글 없음", 3);
+    }
+
+    $hostKey = $getHostKeyQuery -> fetch(PDO::FETCH_COLUMN);
+
+    if($hostKey === $targetMemberKey) {
+        throw new Exception("작성자는 탈퇴할 수 없음", 5);
+    }
+
     if($_SESSION['userKey'] !== $targetMemberKey) {
-        $getHostKeySql = "SELECT hostKey FROM walk WHERE walkKey = :walkKey";
-        $getHostKeyQuery = $database -> prepare($getHostKeySql);
-        $getHostKeyQuery -> bindValue(':walkKey', $targetWalkKey, PDO::PARAM_INT);
-        execQuery($getHostKeyQuery);
-
-        if($getHostKeyQuery -> rowCount() < 1) {
-            throw new Exception("글 없음", 3);
-        }
-
-        $hostKey = $getHostKeyQuery -> fetch(PDO::FETCH_COLUMN);
-
         if($_SESSION['userKey'] !== $hostKey) {
             throw new Exception("권한 없음", 5);
         }
     }
 
-    $delMemberSql = "DELETE FROM hostKey WHERE walkKey = :walkKey AND memberKey = :memberKey";
+    $delMemberSql = "DELETE FROM memberList WHERE walkKey = :walkKey AND memberKey = :memberKey";
     $delMemberQuery = $database -> prepare($delMemberSql);
     $delMemberQuery -> bindValue(':walkKey', $targetWalkKey, PDO::PARAM_INT);
     $delMemberQuery -> bindValue(':memberKey', $targetMemberKey, PDO::PARAM_INT);
