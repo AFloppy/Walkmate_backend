@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>walk mate</title>
+    <link rel="stylesheet" href="../css/detail.css">
+    <link rel="stylesheet" href="../css/nav.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"></script>
+    <script src="../js/nav.js"></script>
+</head>
+<body>
+    <!-- nav 바 -->
+    <div class="nav">
+        <a calss ="logo" href="./main.html">wɔːk meɪt</a>
+        <div class="menu">
+            <a class="menu_a" href="./create.html">산책메이트 구하기</a>
+            <a class="menu_a" href="./list.html">산책메이트 찾기</a>
+
+        </div>
+    </div>
+    <!-- 파랑 in_nav 바 -->
+    <div class="in_nav">
+        <h2 style="font-size: 1.5rem;">경상대학교에서 산책할 분 모집합니다~</h2>
+    </div>
+    <!-- contents -->
+    <div class="container">
+        <div class="container_item">
+            <p>*지도에서 위치를 확인하세요!</p>
+            <div id="map" style="width:800px;height:400px;"></div>
+            <p class="getdata">
+                <button onclick="getDataFromDrawingMap()">가져오기</button>
+                <button onclick="setMap(data)">표시하기</button>
+            </p>
+            <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c6aa7b3f280d43b865071717aa200ff7&libraries=drawing"></script>
+            <script>
+                var container = document.getElementById('map');
+                var options = {
+                    center: new kakao.maps.LatLng(33.450701, 126.570667),
+                    level: 3
+                };
+
+                var map = new kakao.maps.Map(container, options);
+                var options = { // Drawing Manager를 생성할 때 사용할 옵션입니다
+                    map: map, // Drawing Manager로 그리기 요소를 그릴 map 객체입니다
+                    drawingMode: [ // drawing manager로 제공할 그리기 요소 모드입니다
+                        kakao.maps.drawing.OverlayType.MARKER,
+                    ],
+                    // 사용자에게 제공할 그리기 가이드 툴팁입니다
+                    // 사용자에게 도형을 그릴때, 드래그할때, 수정할때 가이드 툴팁을 표시하도록 설정합니다
+                    guideTooltip: ['draw', 'drag', 'edit'], 
+                    markerOptions: { // 마커 옵션입니다 
+                        draggable: true, // 마커를 그리고 나서 드래그 가능하게 합니다 
+                        removable: true // 마커를 삭제 할 수 있도록 x 버튼이 표시됩니다  
+                    },
+                    
+                };
+                
+                // 위에 작성한 옵션으로 Drawing Manager를 생성합니다
+                var manager = new kakao.maps.drawing.DrawingManager(options);
+
+                //핀을 객체로 보내기
+                var data;
+                function getDataFromDrawingMap() {
+                    // Drawing Manager에서 그려진 데이터 정보를 가져옵니다 
+                    data = manager.getData();
+                    alert(JSON.stringify(data));
+                }
+                function setMap(markers) {
+                    drawMarker(data[kakao.maps.drawing.OverlayType.MARKER]);
+                }
+                function drawMarker(markers) {
+                    var len = markers.length, i = 0;
+
+                    for (; i < len; i++) {
+                        var marker = new kakao.maps.Marker({
+                            map: map, 
+                            position: new kakao.maps.LatLng(markers[i].y, markers[i].x), 
+                            zIndex: markers[i].zIndex
+                        });
+
+                    }
+                }
+
+            </script>
+        </div>
+        <div class="container_item">
+            <div class="container_item_in">
+                <div style="margin-bottom: 2rem;">
+                    <p style="font-weight: 700; margin-right: 3rem; ">장소</p><p class="content">경상대학교 정문</p>
+                </div>
+                <div style="margin-bottom: 2rem;">
+                    <p style="font-weight: 700; margin-right: 3rem; margin-bottom: 3rem;">날짜</p><p class="content">2021</p>년 &nbsp;<p class="content">11</p>월 &nbsp;<p class="content">8</p>일
+                </div>
+                <div style="margin-bottom: 2rem;">
+                    <p style="font-weight: 700; margin-right: 3rem; margin-bottom: 3rem;">모집인원</p><p class="content">4</p>명
+                </div>
+                
+                
+                <p style="display: block;font-weight: 700;">한마디</p>
+                <p class="content">"천천히 걸으면서 수다떠실 여자분들 구해요 ~"</p>
+                <button>신청하기</button>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

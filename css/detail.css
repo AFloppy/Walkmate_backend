@@ -1,0 +1,61 @@
+/* 웰컴체 */
+@font-face {
+    font-family: 'OTWelcomeRA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/OTWelcomeRA.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+/* in_nav바 */
+.in_nav{
+    width: 100%;
+    height: 5rem;
+    background: #448AFF;
+    text-align: center;
+    
+}
+.in_nav h2{
+    width: 100%;
+    padding-top: 2rem;
+    display: block;
+    padding: auto 0;
+    margin: 0 auto;
+    text-align: center;
+}
+/* contents */
+.container{
+    border-color: rgb(151, 148, 148);
+    display: flex;
+}
+.container_item{
+    border: cadetblue;
+    width: 50rem;
+    height: 40%;
+    margin: 5%;
+}
+
+
+.container_item p{
+    display: inline;
+    margin-right: 1rem;
+
+    
+}
+.container_item button{
+    display: block;
+    width: 21.5rem;
+    height: 3rem;
+    
+}
+.container_item_in{
+    margin-top: 2rem;
+    margin-left: 0rem;
+}
+
+button{
+    margin-top: 1rem;
+    border: #448AFF 1px solid;
+    border-radius: 2%;
+    background-color: transparent;
+}
+button:hover{ color:white; background-color: #448AFF; }
+textarea:focus,input:focus {outline:none;}

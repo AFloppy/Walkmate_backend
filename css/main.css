@@ -1,0 +1,54 @@
+/*폰트 설정*/
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
+div {
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+body {
+    margin: 0%;
+}
+
+/* 메인 */
+#contents {
+    background-color: #448aff;      /* 색깔 */
+    width:100%;                       /* 가로 */
+    height: 18rem;                    /* 세로 */
+    margin: 0 auto;                   /* margin 0 = 여백없이, auto = 가로 중앙 배치 + 좌우 여백 균등 배분  */
+    position:relative;                /* relative = 태그 위치 변경 가능 */
+    text-align: center;
+
+}
+
+h1 {
+    color: #fff;
+    font-size:50px;
+    text-shadow: 2px 3px 0 #000;    /* x축 y축 blur값 색상값 */  
+    padding-top: 5rem;
+}
+
+.list1{
+    padding : 1rem;                   /* 공백 영역 생성 */
+    border: 0.2rem solid #488aff;       /* solid = 테두리 실선 생성 */
+    border-radius:3rem;               /* radius = 꼭지점 둥글게 */
+    height: 100%;
+    width: 80%;
+    margin: 0% auto;
+}
+
+.list2{
+    padding : 1rem;
+    border: 0.2rem solid #488aff;
+    border-radius:3rem;
+    height: 100%;
+    width: 80%;
+    margin: 0% auto;
+}
+
+.lists{
+    display: grid;                                 /* 그리드 선언, Grid 전체 영역 */
+    grid-template-columns: 1fr 1fr;                /* 열의 크기 정의 */
+    margin: 5% 5%;                      
+    line-height: 2;                                /* 글자 상하 간격 설정 */
+    text-decoration: underline #488aff 0.2rem;      /* 밑줄 선언*/
+    font-size:25px;
+}

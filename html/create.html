@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>walk mate</title>
+    <link rel="stylesheet" href="../css/create.css">
+    <link rel="stylesheet" href="../css/nav.css">
+    <!-- axios-->
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.24.0/dist/axios.min.js"></script>
+    <script src="../js/create.js"></script>
+    
+</head>
+<body>
+    <!-- nav 바 -->
+    <div class="nav">
+        <a class="logo" href="./main.html">wɔːk meɪt</a>
+        <div class="menu">
+            <a class="menu_a" href="./create.html">산책메이트 구하기</a>
+            <a class="menu_a" href="./list.html">산책메이트 찾기</a>
+            <a class="menu_a" href="./login.html">로그인</a>/<a class="menu_a" href="./member.html">회원가입</a>
+            <a class="menu_a" href=""><img class="notice"src="../img/알림.png" alt="알림"></a>
+        </div>
+    </div>
+    <!-- 파랑 in_nav 바 -->
+    <div class="in_nav">
+        <input class="title" type="text" style="font-size: 1.5rem;" placeholder="제목을 입력하세요">
+    </div>
+    <!-- contents -->
+    <div class="container">
+        <div class="container_item">
+            <p>*지도로 위치를 표시하세요</p>
+            <div id="map" style="width:800px;height:400px;"></div>
+            <p>
+                <button onclick="selectOverlay('MARKER')">마커</button>
+            </p>
+            <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c6aa7b3f280d43b865071717aa200ff7&libraries=drawing"></script>
+            <script>
+                var container = document.getElementById('map');
+                var options = {
+                    center: new kakao.maps.LatLng(33.450701, 126.570667),
+                    level: 3
+                };
+
+                var map = new kakao.maps.Map(container, options);
+                var options = { // Drawing Manager를 생성할 때 사용할 옵션입니다
+                    map: map, // Drawing Manager로 그리기 요소를 그릴 map 객체입니다
+                    drawingMode: [ // drawing manager로 제공할 그리기 요소 모드입니다
+                        kakao.maps.drawing.OverlayType.MARKER,
+                    ],
+                    // 사용자에게 제공할 그리기 가이드 툴팁입니다
+                    // 사용자에게 도형을 그릴때, 드래그할때, 수정할때 가이드 툴팁을 표시하도록 설정합니다
+                    guideTooltip: ['draw', 'drag', 'edit'], 
+                    markerOptions: { // 마커 옵션입니다 
+                        draggable: true, // 마커를 그리고 나서 드래그 가능하게 합니다 
+                        removable: true // 마커를 삭제 할 수 있도록 x 버튼이 표시됩니다  
+                    },
+                    
+                };
+
+                // 위에 작성한 옵션으로 Drawing Manager를 생성합니다
+                var manager = new kakao.maps.drawing.DrawingManager(options);
+
+                // 버튼 클릭 시 호출되는 핸들러 입니다
+                function selectOverlay(type) {
+                    // 그리기 중이면 그리기를 취소합니다
+                    manager.cancel();
+
+                    // 클릭한 그리기 요소 타입을 선택합니다
+                    manager.select(kakao.maps.drawing.OverlayType[type]);
+                }
+                function getDataFromDrawingMap() {
+                    // Drawing Manager에서 그려진 데이터 정보를 가져옵니다 
+                    // 내부에서 const를 사용할 수 없음
+                    var mapData;
+                    mapData = manager.getData();
+                    if(mapData.marker.length){
+                        return mapData;
+                    }
+                    else {
+                        return false;
+                    }
+                    
+                }
+                
+            </script>
+        </div>
+        <div class="container_item">
+            <div class="container_item_in">
+                <!-- <input style="display: block; width: 20rem; margin-left: 0px;" type="text" placeholder="장소"> -->
+                <p>날짜</p><input type="datetime-local" style="width: 60%" class="depTime">
+                <br>
+                <p>모집인원</p><input type="number" placeholder="명" class="maxMemberCount">
+                <p style="display: block;">한마디</p>
+                <textarea name="" id="" cols="45" rows="10" class="description"></textarea>
+                <button onclick="createWriting()">글 올리기</button>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

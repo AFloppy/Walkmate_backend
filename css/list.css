@@ -1,0 +1,55 @@
+/* 웰컴체 */
+
+.container{
+    width: 100%;
+    margin-top: 5rem;
+    height: 30rem;
+
+    text-align: center;
+    
+}
+.in_box{
+    display: inline-block;
+}
+select{
+    width: 10rem;
+    height: 2rem;
+    margin-right: -70rem;
+    border-radius: 0.3rem;
+    background-color: transparent;
+    border: #448AFF 1px solid;
+    text-align: center;
+}
+select:focus{
+    outline: none;
+}
+.list_box{
+    margin-top: 1rem;
+    border: #448AFF 1px solid;
+    border-radius: 0.3rem;
+    width: 80rem;
+    height: 25rem;
+}
+li{
+    list-style: none;
+    border-bottom: #448AFF 1px solid;
+    width: 95%;
+    margin-left: 0.3rem;
+    margin-right: 0.3rem;
+    padding-bottom:1rem;
+    padding-top:1rem;
+}
+li p{
+    display: inline;
+}
+.li_h{
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-left: 0rem;
+    margin-right: 30rem;
+}
+li a{
+    text-decoration-line: none;
+    color: black;
+}
+

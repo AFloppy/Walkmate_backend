@@ -1,23 +1,19 @@
-function login() {
-    const loginForm = document.forms["login_form"];
-    const bodyDict = {
-        user_id: loginForm.elements["id"].value,
-        user_pw: loginForm.elements["password"].value
-    }
-
-    const con = new XMLHttpRequest();
-    con.onreadystatechange = () => {
-        if(con.status === 200 && con.readyState === XMLHttpRequest.DONE) {
-            const response = JSON.parse(con.responseText);
-            if(response.isSuccess) {
-                location.href = "index.html";
-            } else {
-                alert(response.reason);
-            }
+const login=async()=>{
+    const user_id=document.getElementById("user_id").value;
+    const user_pw=document.getElementById("user_pw").value;
+    if(user_id&&user_pw){
+        try{
+            const account = await axios.post("../php/account/login.php",{
+                user_id:user_id,
+                user_pw:user_pw
+            });
+            if(account.data){
+                 console.log(account.data);
+            }else{ console.log("입력 실패");
+        }
+           
+        }catch(error){
+            console.log(error);
         }
     }
-
-    con.open("POST", "api/account/login.php");
-    con.setRequestHeader("Content-Type", "application/json");
-    con.send(JSON.stringify(bodyDict));
 }

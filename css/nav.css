@@ -1,0 +1,42 @@
+/* 네브바 */
+.nav{
+    background-color: white;
+    height: 50px;
+    display: grid;
+    grid-template-columns: 6fr 4fr;
+    z-index: 99999;
+    padding-bottom: 1px;
+
+}
+
+.menu{
+    display: inline;
+    text-align: right;
+    margin-top: 2%;
+    text-align: center;
+    
+}
+.menu_a{
+    text-decoration-line: none;
+    margin: 0% 1%;
+    height: 100%;
+    color: black;
+   
+}
+.notice{
+    width: 3%;
+
+}
+.logo{
+    
+    margin-top: 0px;
+    margin-left: 3%;
+    padding-top: 0px;
+    display: inline;
+    font-weight: bold;
+    font-size: 1.8rem;
+    color: black;
+    text-decoration-line: none;
+}
+
+/* 네브바 */
