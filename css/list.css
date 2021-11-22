@@ -28,7 +28,7 @@ select:focus{
     border: #448AFF 1px solid;
     border-radius: 0.3rem;
     width: 80rem;
-    height: 25rem;
+    height: auto;
 }
 li{
     list-style: none;

@@ -10,6 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="../js/nav.js"></script>
+    <script src="../js/mypage.js"></script>
 </head>
 <body>
     <!-- nav 바 -->
@@ -29,44 +30,14 @@
     <!-- list -->
     <div class="container">
         <div class="in_box">
-            <select name="" id="">
-                <option value="">신청한 산책 게시글</option>
-                <option value="">등록한 산책 게시글</option>
+            <select name="" id="select_walklist" onchange="chageLangSelect()">
+                <option value="apply">신청한 산책 게시글</option>
+                <option value="host">작성한 산책 게시글</option>
+                <option value="join">신청 승인된 산책 게시글</option>
             </select>
             <div class="list_box">
                 <ul>
-                    <li>
-                        <a href="detail.html"><p class="li_h">경상대학교에서 산책할 분 모집합니다~</p></a> 
-                        <p style="color: gray;">인원 : 4명 날짜 : 2021-11-11</p>
-                        <div class="reco">
-                          <h5>신청한 사람</h5>
-                          <div>
-                          <h6>-happy</h6> <a href="">승인하기</a>
-                          </div>
-                          <div>
-                            <h6>-happy</h6> <a href="">승인하기</a>
-                          </div>
- 
-                          <h5>승인된 사람</h5>
-                          <h6>-like245</h6>
-                        </div>
-                    </li>
-                    <li>
-                      <a href="detail.html"><p class="li_h">경상대학교에서 산책할 분 모집합니다~</p></a> 
-                      <p style="color: gray;">인원 : 4명 날짜 : 2021-11-11</p>
-                      <div class="reco">
-                        <h5>신청한 사람</h5>
-                        <div>
-                        <h6>-happy</h6> <a href="">승인하기</a>
-                        </div>
-                        <div>
-                          <h6>-happy</h6> <a href="">승인하기</a>
-                        </div>
 
-                        <h5>승인된 사람</h5>
-                        <h6>-like245</h6>
-                      </div>
-                  </li>
                     
                 </ul>
             </div>

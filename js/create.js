@@ -4,8 +4,8 @@ const createWriting = async () => {
     const description = document.querySelector(".description").value;
     const depTime = document.querySelector(".depTime").value;
     var depLocation = getDataFromDrawingMap();
-    var depLatitude = depLocation.marker[0].x;
-    var depLongitude = depLocation.marker[0].y;
+    var depLatitude = depLocation.marker[0].y;
+    var depLongitude = depLocation.marker[0].x;
     alert(JSON.stringify(depLocation));
     if (title && depTime && maxMemberCount && depLocation) {
         console.log(title);

@@ -16,6 +16,7 @@ const signup=async()=>{
     console.log(user_pw);
     console.log(nickname);
     console.log(addr.getLat());
+    console.log(addr.getLng());
     console.log(mail);
     console.log(phone);
     console.log(birth);
