@@ -7,7 +7,7 @@
 ?>
  <script>
          alert("로그아웃 되었습니다.");
-         location.replace("../html/login.html"); //다시 처음 페이지로 돌아간다
+         location.replace("../../html/login.html"); //다시 처음 페이지로 돌아간다
  </script>
 <?php   }
 ?>

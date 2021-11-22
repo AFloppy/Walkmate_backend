@@ -21,12 +21,10 @@ try {
     }   
 
     $walkPost = $query -> fetch(PDO::FETCH_ASSOC);
-    $walkPost['depLocation'] = json_decode($walkPost['depLocation'], true);
-    $walkPost['requireList'] = json_decode($walkPost['requireList'], true);
     $resArray['isSuccess'] = true;
     $resArray['body'] = $walkPost;
     
-    if($_SESSION['userKey'] === $walkPost['hostKey']) {
+    if(isset($_SESSION['userKey']) && ($_SESSION['userKey'] === $walkPost['hostKey'])) {
         $resArray['isHost'] = true;
 
         $memberSql = "SELECT * FROM memberList WHERE walkKey = :reqKey";

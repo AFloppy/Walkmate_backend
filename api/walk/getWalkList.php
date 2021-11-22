@@ -24,14 +24,14 @@ try {
 
         if($getAddrQuery -> rowCount() === 1) {
             $userAddr = $getAddrQuery -> fetch(PDO::FETCH_ASSOC);
-            $sql .= ", HAVERSINE(depLatitude, depLongitude, :lat, :long) AS distance";
+            $sql = $sql . ", HAVERSINE(depLatitude, depLongitude, :lat, :long) AS distance";
             $param = array_merge($param, array(':lat' => $userAddr['addrLatitude'], ':long' => $userAddr['addrLongitude']));
         }
     }
-    $sql .= " FROM walk WHERE writeTime <= STR_TO_DATE(:reqTime, '%Y-%m-%d %T') ORDER BY walkKey DESC LIMIT :requireCount OFFSET :walkListCount";
+    $sql = $sql . " FROM walk WHERE writeTime <= STR_TO_DATE(:reqTime, '%Y-%m-%d %T') ORDER BY walkKey DESC LIMIT :requireCount OFFSET :walkListCount";
+
     $query = $database -> prepare($sql);
 
-    
     foreach($param as $key => $value) {
         if(is_int($value)) {
             $query -> bindValue($key, $value, PDO::PARAM_INT);
@@ -43,7 +43,7 @@ try {
     execQuery($query);
     
     $walkArray = $query -> fetchAll(PDO::FETCH_ASSOC);
-    
+
     $resArray['isSuccess'] = true;
     $resArray['walksCount'] = $query->rowCount();
     $resArray['walks'] = $walkArray;

@@ -25,7 +25,7 @@ try {
     if($memberQuery -> rowCount() > 0) {
         $memberResult = $memberQuery -> fetchAll(PDO::FETCH_ASSOC);
         foreach($memberResult as $value) {
-            if($value['memberKey'] === $_SESSION['user_key']) {
+            if($value['memberKey'] === $_SESSION['userKey']) {
                 $flag = false;
                 break;
             }
@@ -54,8 +54,8 @@ try {
     
     $insSql = "INSERT applyList (walkKey, memberKey, memberID, nickname, applyTime) 
             VALUES (:walkKey, :memberKey, :memberID, :nickname, NOW())";
-    $insParam = array(':walkKey' => $targetWalkKey, ':memberKey' => $_SESSION['user_key'],
-                        ':memberID' => $_SESSION['user_id'], ':nickname' => $_SESSION['user_nickname']);
+    $insParam = array(':walkKey' => $targetWalkKey, ':memberKey' => $_SESSION['userKey'],
+                        ':memberID' => $_SESSION['userId'], ':nickname' => $_SESSION['userNickname']);
 
     $insQuery = $database -> prepare($insSql);
     foreach($insParam as $key => $value) {
